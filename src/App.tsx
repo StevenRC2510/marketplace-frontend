@@ -1,25 +1,24 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { PersistGate } from 'redux-persist/integration/react';
+
+import { AppStore, history, persistor } from './shared/store/';
+import { ThemeProvider } from 'styled-components';
+import { colors, fontSize } from 'src/assets/styles';
+import Layaout from './components/templates/layaout';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={{ colors, fontSize }}>
+      <Provider store={AppStore}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ConnectedRouter history={history}>
+            <Layaout />
+          </ConnectedRouter>
+        </PersistGate>
+      </Provider>
+    </ThemeProvider>
   );
 }
 
